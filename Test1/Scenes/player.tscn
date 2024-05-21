@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8ytxyw8whmn3"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_62355"]
+[ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="1_poelo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcg8b"]
+atlas = ExtResource("1_poelo")
+region = Rect2(3, 49, 13, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kh5gq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcg8b")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7bsch"]
+radius = 13.9983
+height = 47.9941
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_62355")
+delay_time = 0.1
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_kh5gq")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1.43051e-06)
+rotation = -1.55509
+shape = SubResource("CapsuleShape2D_7bsch")
+
+[node name="RotationDelay" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="RotationDelay" to="." method="_on_rotation_delay_timeout"]
