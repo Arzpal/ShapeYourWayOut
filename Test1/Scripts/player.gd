@@ -11,7 +11,6 @@ var both_pressed = false
 @export var delay_time = 0.2
 
 #shoot
-@export var main: Node2D
 @export var bullet_scene: PackedScene
 @onready var bullet_position = $BulletPosition
 
@@ -59,4 +58,4 @@ func shoot():
 	var bullet = bullet_scene.instantiate()
 	bullet.spawn_pos = bullet_position.global_position
 	bullet.spawn_rot = bullet_position.global_rotation
-	main.add_child(bullet)
+	bullet_position.add_child(bullet)
