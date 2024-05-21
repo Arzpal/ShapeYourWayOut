@@ -2,7 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://c8ytxyw8whmn3" path="res://Scenes/player.tscn" id="1_y2moq"]
 
-[node name="Node" type="Node"]
+[node name="Playground" type="Node"]
 
-[node name="Player" parent="." instance=ExtResource("1_y2moq")]
+[node name="Player" parent="." node_paths=PackedStringArray("main") instance=ExtResource("1_y2moq")]
 position = Vector2(641, 250)
+main = NodePath("../BulletHolder")
+
+[node name="BulletHolder" type="Node2D" parent="."]

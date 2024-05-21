@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8ytxyw8whmn3"]
+[gd_scene load_steps=7 format=3 uid="uid://c8ytxyw8whmn3"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_62355"]
 [ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="1_poelo"]
+[ext_resource type="PackedScene" uid="uid://7id8ut2b71to" path="res://Scenes/bullet.tscn" id="2_utwvj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fcg8b"]
 atlas = ExtResource("1_poelo")
@@ -23,8 +24,11 @@ radius = 13.9983
 height = 47.9941
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 10
+position = Vector2(600, 297)
 script = ExtResource("1_62355")
 delay_time = 0.1
+bullet_scene = ExtResource("2_utwvj")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -40,5 +44,8 @@ shape = SubResource("CapsuleShape2D_7bsch")
 
 [node name="RotationDelay" type="Timer" parent="."]
 one_shot = true
+
+[node name="BulletPosition" type="Node2D" parent="."]
+position = Vector2(0, -17)
 
 [connection signal="timeout" from="RotationDelay" to="." method="_on_rotation_delay_timeout"]
