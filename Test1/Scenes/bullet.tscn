@@ -1,11 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://7id8ut2b71to"]
+[gd_scene load_steps=10 format=3 uid="uid://7id8ut2b71to"]
 
 [ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_64a40"]
 [ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="1_nber8"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xx77s"]
-radius = 5.0
-height = 26.0
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_ddp34"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_auvfj"]
 atlas = ExtResource("1_nber8")
@@ -43,13 +40,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xc6d"]
+radius = 5.0
+height = 20.0
+
 [node name="Bullet" type="Area2D"]
 top_level = true
 z_index = 9
 script = ExtResource("1_64a40")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_xx77s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -57,3 +55,8 @@ sprite_frames = SubResource("SpriteFrames_o2uts")
 animation = &"Idle"
 autoplay = "Idle"
 frame_progress = 0.181715
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2xc6d")
+script = ExtResource("2_ddp34")
+damage = 10

@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 #movement
-const SPEED = 18000.0
+const SPEED = 1000.0
+const MAX_SPEED = 50000.0
+var isMoving = false
 
 #rotation
 var rotation_dir: Vector2 = Vector2.ZERO
@@ -13,6 +15,10 @@ var both_pressed = false
 #shoot
 @export var bullet_scene: PackedScene
 @onready var bullet_position = $BulletPosition
+@onready var fire = $Fire
+
+#damage
+@onready var animation_player = $AnimationPlayer
 
 func _ready():
 	rotation_delay.wait_time = delay_time
@@ -30,7 +36,16 @@ func movement_rotation(delta):
 	if abs(direction.x) == 1 && abs(direction.y) == 1:
 		both_pressed = true
 	
-	velocity = direction * SPEED * delta
+	if direction != Vector2.ZERO:
+		velocity += last_direction * SPEED * delta
+		if !fire.is_playing():
+			fire.play("Fire")
+	else:
+		velocity -= velocity * delta
+		fire.play("Idle")
+		fire.stop()
+	
+	velocity = Vector2(clamp(velocity.x, -MAX_SPEED * delta, MAX_SPEED * delta), clamp(velocity.y, -MAX_SPEED * delta, MAX_SPEED * delta))
 	
 	if !both_pressed && direction != Vector2.ZERO: #if just touching one button
 		last_direction = direction.normalized()
@@ -59,3 +74,11 @@ func shoot():
 	bullet.spawn_pos = bullet_position.global_position
 	bullet.spawn_rot = bullet_position.global_rotation
 	bullet_position.add_child(bullet)
+
+func _on_hurt():
+	velocity.x /= 2
+	velocity.y /= 2
+	animation_player.play("Hit")
+
+func _on_death():
+	pass # Replace with function body.
