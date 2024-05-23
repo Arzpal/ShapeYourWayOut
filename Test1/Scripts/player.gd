@@ -16,6 +16,7 @@ var both_pressed = false
 @export var bullet_scene: PackedScene
 @onready var bullet_position = $BulletPosition
 @onready var fire = $Fire
+@onready var cpu_particles_2d = $BulletPosition/CPUParticles2D
 
 #damage
 @onready var animation_player = $AnimationPlayer
@@ -74,6 +75,7 @@ func shoot():
 	bullet.spawn_pos = bullet_position.global_position
 	bullet.spawn_rot = bullet_position.global_rotation
 	bullet_position.add_child(bullet)
+	cpu_particles_2d.emitting = true;
 
 func _on_hurt():
 	velocity.x /= 2

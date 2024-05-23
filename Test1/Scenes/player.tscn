@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://c8ytxyw8whmn3"]
+[gd_scene load_steps=18 format=3 uid="uid://c8ytxyw8whmn3"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_62355"]
 [ext_resource type="PackedScene" uid="uid://7id8ut2b71to" path="res://Scenes/bullet.tscn" id="2_utwvj"]
 [ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="3_7a82i"]
 [ext_resource type="Texture2D" uid="uid://di8sjcfa5rgka" path="res://Sprites/PlayerShip.png" id="3_l5q8w"]
+[ext_resource type="Texture2D" uid="uid://dmhe3m76gok3l" path="res://Sprites/Explosion1.png" id="4_n3ehb"]
 [ext_resource type="PackedScene" uid="uid://b42uo5o16urew" path="res://Scenes/hurtbox.tscn" id="5_xilpi"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1hjq5"]
@@ -39,6 +40,10 @@ animations = [{
 "name": &"Idle",
 "speed": 5.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_vgcd8"]
+offsets = PackedFloat32Array(0, 0.178808)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7bsch"]
 radius = 20.0
@@ -140,8 +145,37 @@ sprite_frames = SubResource("SpriteFrames_iqx7u")
 animation = &"Idle"
 autoplay = "Idle"
 
+[node name="BulletPosition" type="Node2D" parent="."]
+position = Vector2(0, -59.2)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="BulletPosition"]
+position = Vector2(0, -8.8)
+emitting = false
+amount = 10
+lifetime = 0.15
+one_shot = true
+speed_scale = 1.5
+fixed_fps = 60
+local_coords = true
+draw_order = 1
+texture = ExtResource("4_n3ehb")
+emission_shape = 1
+emission_sphere_radius = 9.54
+direction = Vector2(0, -1)
+spread = 18.18
+gravity = Vector2(0, 0)
+initial_velocity_min = 371.72
+initial_velocity_max = 452.53
+linear_accel_min = 18.18
+linear_accel_max = 32.32
+angle_min = -179.0
+angle_max = 179.0
+scale_amount_min = 3.5
+scale_amount_max = 4.5
+color_ramp = SubResource("Gradient_vgcd8")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -15.2)
+position = Vector2(0, -15)
 scale = Vector2(4, 4)
 texture = ExtResource("3_l5q8w")
 
@@ -161,9 +195,6 @@ debug_color = Color(0, 0.6, 0.701961, 0.627451)
 
 [node name="RotationDelay" type="Timer" parent="."]
 one_shot = true
-
-[node name="BulletPosition" type="Node2D" parent="."]
-position = Vector2(0, -59.2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
