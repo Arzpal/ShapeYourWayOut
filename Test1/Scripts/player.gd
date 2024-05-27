@@ -9,17 +9,18 @@ var isMoving = false
 var rotation_dir: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.ZERO
 var both_pressed = false
-@onready var rotation_delay = $RotationDelay
 @export var delay_time = 0.2
+@onready var rotation_delay = $RotationDelay
 
 #shoot
 @export var bullet_scene: PackedScene
 @onready var bullet_position = $BulletPosition
 @onready var fire = $Fire
-@onready var cpu_particles_2d = $BulletPosition/CPUParticles2D
 
 #damage
-@onready var animation_player = $AnimationPlayer
+@onready var ship_sprite = $ShipSprite
+@onready var collision_shape_2d = $Hurtbox/CollisionShape2D
+@onready var death_timer = $Hurtbox/DeathTimer
 
 func _ready():
 	rotation_delay.wait_time = delay_time
@@ -75,12 +76,29 @@ func shoot():
 	bullet.spawn_pos = bullet_position.global_position
 	bullet.spawn_rot = bullet_position.global_rotation
 	bullet_position.add_child(bullet)
-	cpu_particles_2d.emitting = true;
 
 func _on_hurt():
 	velocity.x /= 2
 	velocity.y /= 2
-	animation_player.play("Hit")
+	
+	ship_sprite.play("Hurt")
+	fire.hide()
+	collision_shape_2d.disabled = true
+	Engine.time_scale = 0.7
+	await ship_sprite.animation_finished
+	collision_shape_2d.disabled = false
+	Engine.time_scale = 1
+	fire.show()
+	ship_sprite.play("Idle")
 
 func _on_death():
-	pass # Replace with function body.
+	ship_sprite.play("Death")
+	fire.hide()
+	Engine.time_scale = 0.5
+	ship_sprite.speed_scale = 1.5
+	await ship_sprite.animation_finished
+	death_timer.start()
+
+func _on_death_timer_timeout():
+	Engine.time_scale = 1
+	get_tree().reload_current_scene()

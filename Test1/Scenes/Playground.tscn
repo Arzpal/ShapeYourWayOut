@@ -1,10 +1,55 @@
-[gd_scene load_steps=5 format=3 uid="uid://tc254vqw555y"]
+[gd_scene load_steps=11 format=3 uid="uid://tc254vqw555y"]
 
 [ext_resource type="PackedScene" uid="uid://c8ytxyw8whmn3" path="res://Scenes/player.tscn" id="1_y2moq"]
 [ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="2_6xu7j"]
 [ext_resource type="PackedScene" uid="uid://mjvigm25nlra" path="res://Scenes/asteroid.tscn" id="3_jmm6l"]
+[ext_resource type="Texture2D" uid="uid://dgmmg6cna1gvc" path="res://Sprites/Fire.png" id="4_0whkd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ixi4c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgeb2"]
+atlas = ExtResource("4_0whkd")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13gpg"]
+atlas = ExtResource("4_0whkd")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uam4s"]
+atlas = ExtResource("4_0whkd")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gylft"]
+atlas = ExtResource("4_0whkd")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yggva"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bgeb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13gpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uam4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gylft")
+}],
+"loop": true,
+"name": &"Fire",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
 
 [node name="Playground" type="Node"]
 
@@ -41,3 +86,12 @@ position = Vector2(707, 532)
 
 [node name="Asteroid2" parent="." instance=ExtResource("3_jmm6l")]
 position = Vector2(843, 414)
+
+[node name="Fire" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+position = Vector2(108, 449)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_yggva")
+animation = &"Fire"
+autoplay = "Fire"
+frame_progress = 0.996071
