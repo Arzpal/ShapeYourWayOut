@@ -44,6 +44,8 @@ func movement_rotation(delta):
 			fire.play("Fire")
 	else:
 		velocity -= velocity * delta
+		if abs(velocity.x) < 3 : velocity.x = 0
+		if abs(velocity.y) < 3 : velocity.y = 0
 		fire.play("Idle")
 		fire.stop()
 	
@@ -85,7 +87,9 @@ func _on_hurt():
 	fire.hide()
 	collision_shape_2d.disabled = true
 	Engine.time_scale = 0.7
+	ship_sprite.speed_scale = 1.3
 	await ship_sprite.animation_finished
+	ship_sprite.speed_scale = 1
 	collision_shape_2d.disabled = false
 	Engine.time_scale = 1
 	fire.show()
@@ -96,6 +100,7 @@ func _on_death():
 	fire.hide()
 	Engine.time_scale = 0.5
 	ship_sprite.speed_scale = 1.5
+	collision_shape_2d.disabled = true
 	await ship_sprite.animation_finished
 	death_timer.start()
 
