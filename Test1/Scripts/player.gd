@@ -4,6 +4,7 @@ extends CharacterBody2D
 const SPEED = 1000.0
 const MAX_SPEED = 50000.0
 var isMoving = false
+@onready var fire = $Fire
 
 #rotation
 var rotation_dir: Vector2 = Vector2.ZERO
@@ -15,12 +16,13 @@ var both_pressed = false
 #shoot
 @export var bullet_scene: PackedScene
 @onready var bullet_position = $BulletPosition
-@onready var fire = $Fire
+@onready var shooting = $Shooting
 
 #damage
 @onready var ship_sprite = $ShipSprite
 @onready var collision_shape_2d = $Hurtbox/CollisionShape2D
 @onready var death_timer = $Hurtbox/DeathTimer
+@onready var hurtbox = $Hurtbox
 
 func _ready():
 	rotation_delay.wait_time = delay_time
@@ -75,9 +77,14 @@ func _on_rotation_delay_timeout():
 
 func shoot():
 	var bullet = bullet_scene.instantiate()
+	if shooting.is_playing(): shooting.stop()
+	shooting.play("Fire")
 	bullet.spawn_pos = bullet_position.global_position
 	bullet.spawn_rot = bullet_position.global_rotation
 	bullet_position.add_child(bullet)
+
+func change_collision_shape_status(is_disabled):
+	collision_shape_2d.disabled = is_disabled
 
 func _on_hurt():
 	velocity.x /= 2
@@ -86,6 +93,7 @@ func _on_hurt():
 	ship_sprite.play("Hurt")
 	fire.hide()
 	collision_shape_2d.disabled = true
+	hurtbox.hide()
 	Engine.time_scale = 0.7
 	ship_sprite.speed_scale = 1.3
 	await ship_sprite.animation_finished

@@ -1,11 +1,14 @@
-[gd_scene load_steps=30 format=3 uid="uid://c8ytxyw8whmn3"]
+[gd_scene load_steps=39 format=3 uid="uid://c8ytxyw8whmn3"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_62355"]
 [ext_resource type="PackedScene" uid="uid://7id8ut2b71to" path="res://Scenes/bullet.tscn" id="2_utwvj"]
 [ext_resource type="Texture2D" uid="uid://dgmmg6cna1gvc" path="res://Sprites/Fire.png" id="3_43720"]
 [ext_resource type="Texture2D" uid="uid://di8sjcfa5rgka" path="res://Sprites/PlayerShip.png" id="3_l5q8w"]
 [ext_resource type="PackedScene" uid="uid://b42uo5o16urew" path="res://Scenes/hurtbox.tscn" id="5_xilpi"]
+[ext_resource type="Texture2D" uid="uid://bmcluh76pfv0t" path="res://Sprites/ShootingRay.png" id="6_pmb21"]
 [ext_resource type="Texture2D" uid="uid://ca745fls4x28w" path="res://Sprites/DeathExplosion.png" id="6_urve4"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="8_yfmxu"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="9_j42ey"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ja2jr"]
 atlas = ExtResource("3_43720")
@@ -190,9 +193,59 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_le2vf"]
+atlas = ExtResource("6_pmb21")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tfywx"]
+atlas = ExtResource("6_pmb21")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2bo0"]
+atlas = ExtResource("6_pmb21")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjy8e"]
+atlas = ExtResource("6_pmb21")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1jlni"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_le2vf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tfywx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2bo0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjy8e")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"Fire",
+"speed": 18.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7bsch"]
 radius = 20.0
 height = 76.0
+
+[sub_resource type="Resource" id="Resource_q7soy"]
+script = ExtResource("9_j42ey")
+duration = 1.0
+transition = 4
+ease = 2
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
@@ -221,6 +274,15 @@ sprite_frames = SubResource("SpriteFrames_b5brv")
 animation = &"Idle"
 autoplay = "Idle"
 
+[node name="Shooting" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -15)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_1jlni")
+animation = &"Fire"
+autoplay = "Idle"
+frame = 4
+frame_progress = 1.0
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -15.2)
 polygon = PackedVector2Array(0, -54, 55, 52, -55, 52)
@@ -241,6 +303,20 @@ one_shot = true
 
 [node name="RotationDelay" type="Timer" parent="."]
 one_shot = true
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("8_yfmxu")
+priority = 10
+follow_mode = 2
+follow_target = NodePath("..")
+snap_to_pixel = true
+tween_resource = SubResource("Resource_q7soy")
+follow_damping = true
+dead_zone_width = 0.089
+dead_zone_height = 0.069
+show_viewfinder_in_play = true
+draw_limits = true
 
 [connection signal="death" from="Hurtbox" to="." method="_on_death"]
 [connection signal="hurt" from="Hurtbox" to="." method="_on_hurt"]
