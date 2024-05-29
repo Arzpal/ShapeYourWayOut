@@ -1,48 +1,48 @@
 [gd_scene load_steps=10 format=3 uid="uid://7id8ut2b71to"]
 
 [ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_64a40"]
-[ext_resource type="Texture2D" uid="uid://ci6hd8cdsnxku" path="res://Sprites/Arcade - Space Invaders - Game Graphics and Color Overlays.png" id="1_nber8"]
+[ext_resource type="Texture2D" uid="uid://bmcluh76pfv0t" path="res://Sprites/ShootingRay.png" id="2_3a4r6"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_ddp34"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_auvfj"]
-atlas = ExtResource("1_nber8")
-region = Rect2(1, 20, 3, 10)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsg62"]
+atlas = ExtResource("2_3a4r6")
+region = Rect2(64, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gboee"]
-atlas = ExtResource("1_nber8")
-region = Rect2(6, 20, 3, 10)
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6gdk"]
+atlas = ExtResource("2_3a4r6")
+region = Rect2(128, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r4bb8"]
-atlas = ExtResource("1_nber8")
-region = Rect2(11, 20, 3, 10)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n7bd"]
+atlas = ExtResource("2_3a4r6")
+region = Rect2(0, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t3ike"]
-atlas = ExtResource("1_nber8")
-region = Rect2(16, 20, 3, 10)
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wovr"]
+atlas = ExtResource("2_3a4r6")
+region = Rect2(64, 128, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o2uts"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_auvfj")
+"texture": SubResource("AtlasTexture_wsg62")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gboee")
+"texture": SubResource("AtlasTexture_q6gdk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_r4bb8")
+"texture": SubResource("AtlasTexture_1n7bd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t3ike")
+"texture": SubResource("AtlasTexture_4wovr")
 }],
 "loop": true,
 "name": &"Idle",
-"speed": 5.0
+"speed": 18.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xc6d"]
 radius = 5.0
-height = 20.0
+height = 28.0
 
 [node name="Bullet" type="Area2D"]
 top_level = true
@@ -54,7 +54,7 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_o2uts")
 animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.181715
+frame_progress = 0.466628
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_2xc6d")

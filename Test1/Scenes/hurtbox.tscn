@@ -7,4 +7,3 @@ collision_layer = 2
 script = ExtResource("1_m4hh5")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="death" from="." to="." method="_on_death"]
