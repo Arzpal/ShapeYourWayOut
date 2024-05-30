@@ -17,5 +17,7 @@ func receive_damage(amount):
 
 func _on_body_entered(body: Node):
 	var hitbox = body.find_child("Hitbox")
+	print("aaaa")
 	if hitbox != null && hitbox.get_parent() != self.get_parent():
 		receive_damage(hitbox.damage)
+		hitbox.impact.emit()
