@@ -1,1 +1,0 @@
--separate fire on 3 animations (starting/maintaining/releasing)
