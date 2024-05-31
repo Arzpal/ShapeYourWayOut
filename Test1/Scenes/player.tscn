@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://c8ytxyw8whmn3"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_62355"]
-[ext_resource type="PackedScene" uid="uid://7id8ut2b71to" path="res://Scenes/bullet.tscn" id="2_utwvj"]
+[ext_resource type="PackedScene" uid="uid://d0g6n7rnlpdrx" path="res://Scenes/ray_bullet.tscn" id="2_8huje"]
 [ext_resource type="Texture2D" uid="uid://dgmmg6cna1gvc" path="res://Sprites/Fire.png" id="3_43720"]
 [ext_resource type="Texture2D" uid="uid://di8sjcfa5rgka" path="res://Sprites/PlayerShip.png" id="3_l5q8w"]
 [ext_resource type="PackedScene" uid="uid://b42uo5o16urew" path="res://Scenes/hurtbox.tscn" id="5_xilpi"]
@@ -246,7 +246,7 @@ height = 76.0
 z_index = 10
 script = ExtResource("1_62355")
 delay_time = 0.1
-bullet_scene = ExtResource("2_utwvj")
+bullet_scene = ExtResource("2_8huje")
 metadata/_edit_group_ = true
 
 [node name="Fire" type="AnimatedSprite2D" parent="."]
@@ -286,6 +286,7 @@ polygon = PackedVector2Array(0, -54, 55, 52, -55, 52)
 position = Vector2(0, -15.2)
 collision_layer = 1
 collision_mask = 3
+life = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, 15)
